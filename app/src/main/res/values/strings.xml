@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">MaaxSegments</string>
+    <string name="sharedPreferences">save_token</string>
+</resources>
