@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="D:\Github\MaaxSegments\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.3"
+        sha1="f5f59b47a7d84ec63471e81cecefb3c68d3b2bb7">
+        <dex dex="D:\Github\MaaxSegments\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_2a33bca3c6062b74c203eb9741a815b982c6288b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Github\MaaxSegments\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.3"
+        sha1="caff8e51a24901cfc9cd7e1cf83d84f4cb0c103b">
+        <dex dex="D:\Github\MaaxSegments\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_7eee0ba31a8e1427cfab2ae31950fc4a96a2f620\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\mmarc\.android\build-cache\dfe060e17d3dab58ba4c76f4d17d046b3de131c0\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.3"
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="D:\Github\MaaxSegments\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_e4c89eb1acde85d976531692c14025b82d47b200\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\mmarc\AppData\Local\Android\Sdk\extras\m2repository\com\android\support\constraint\constraint-layout-solver\1.0.2\constraint-layout-solver-1.0.2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.3"
+        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
+        <dex dex="D:\Github\MaaxSegments\app\build\intermediates\transforms\dex\debug\folders\1000\10\constraint-layout-solver-1.0.2_c0ef502f5ed62532375328d632032ae989f41e80\classes.dex" />
+    </item>
+
+</items>

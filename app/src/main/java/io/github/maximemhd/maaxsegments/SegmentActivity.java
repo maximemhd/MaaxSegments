@@ -19,10 +19,16 @@ import com.sweetzpot.stravazpot.common.api.StravaConfig;
 import com.sweetzpot.stravazpot.common.api.exception.StravaAPIException;
 import com.sweetzpot.stravazpot.common.api.exception.StravaUnauthorizedException;
 import com.sweetzpot.stravazpot.common.model.Time;
+import com.sweetzpot.stravazpot.segment.model.SegmentEffort;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class SegmentActivity extends AppCompatActivity {
+    StravaConfig config = null;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +43,11 @@ public class SegmentActivity extends AppCompatActivity {
             ((TextView)findViewById(R.id.textView_connection)).setText("Disconnected");
         }
         else {
-            StravaConfig config = null;
+
             config = StravaConfig.withToken(token)
                     .debug()
                     .build();
-            //new async().execute(config);
+            new async().execute(config);
             new asyncListActivity().execute(config);
         }
 
@@ -60,7 +66,7 @@ public class SegmentActivity extends AppCompatActivity {
                         .before(null)
                         .after(null)
                         .inPage(1)
-                        .perPage(100)
+                        .perPage(200)
                         .execute();
 
             }catch(StravaUnauthorizedException e){
@@ -80,14 +86,14 @@ public class SegmentActivity extends AppCompatActivity {
         }
 
         protected void onProgressUpdate(Integer... progress) {
-           /* if (progressDialog == null) {
+            if (progressDialog == null) {
                 progressDialog = new ProgressDialog(SegmentActivity.this);
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 progressDialog.setMessage("Loading...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
             }
-            progressDialog.setProgress(progress[0]);*/
+            progressDialog.setProgress(progress[0]);
             //Toast.makeText(SegmentActivity.this, "Activité "+progress[0], Toast.LENGTH_SHORT).show();
         }
 
@@ -96,19 +102,19 @@ public class SegmentActivity extends AppCompatActivity {
                 Toast.makeText(SegmentActivity.this, "Liste NON CHARGÉE", Toast.LENGTH_SHORT).show();
             }else{
                 Toast.makeText(SegmentActivity.this, "Liste chargée", Toast.LENGTH_SHORT).show();
-                List<String> liste_titres = null;
+               // List<String> liste_titres = new ArrayList<>();
+                List<Integer> liste_id = new ArrayList<>();
+                //List<SegmentEffort> liste_segments = new ArrayList<>();
+                //List<String> liste_segments_titres = new ArrayList<>();
+
                 for (Activity act : result){
-                    liste_titres.add(act.getName());
+                   // liste_titres.add(act.getName());
+                    liste_id.add(act.getID());
                 }
 
+                new async_activity().execute(liste_id);
 
-                ListView listview = (ListView)findViewById(R.id.listSegments);
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                 SegmentActivity.this,
-                 android.R.layout.simple_list_item_1,
-                        liste_titres );
 
-                listview.setAdapter(arrayAdapter);
 
             }
 
@@ -160,4 +166,91 @@ public class SegmentActivity extends AppCompatActivity {
 
         }
     }
+    private static class MyTaskParams {
+        StravaConfig config;
+        Integer id;
+
+        MyTaskParams(StravaConfig config, Integer id) {
+            this.config = config;
+            this.id = id;
+
+        }
+    }
+
+    private class async_activity extends AsyncTask<List<Integer>, Integer, List<SegmentEffort>> {
+        private ProgressDialog dialog;
+
+        protected List<SegmentEffort> doInBackground(List<Integer>... monId) {
+
+            ActivityAPI activityAPI = new ActivityAPI(config);
+            Activity activity = null;
+            Set set = new HashSet<>();
+
+
+            for (int i=0; i<monId[0].size();i++)
+            {
+                try {
+                    activity = activityAPI.getActivity(monId[0].get(i))
+                            .includeAllEfforts(true)
+                            .execute();
+
+                }catch(StravaUnauthorizedException e){
+                    Toast.makeText(SegmentActivity.this, "erreur", Toast.LENGTH_SHORT).show();
+
+                }catch(StravaAPIException e){
+                    Toast.makeText(SegmentActivity.this, "erreur", Toast.LENGTH_SHORT).show();
+                }finally{
+                    if(activity==null){
+                        return null;
+                    }else{
+                        Set subset = new HashSet<>(activity.getSegmentEfforts());
+                        set.removeAll(subset);
+                        set.addAll(activity.getSegmentEfforts());
+                    }
+            }
+
+            }
+            List<SegmentEffort> liste_segments = new ArrayList<>(set);
+            return liste_segments;
+
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(SegmentActivity.this);
+            dialog.setMessage("Loading, please wait.");
+            dialog.show();
+        }
+
+
+
+        protected void onPostExecute(List<SegmentEffort> result) {
+            //Toast.makeText(Activity_Dashboard.this, "Athlete: "+ result.getFirstName(), Toast.LENGTH_SHORT).show();
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            if(result==null){
+
+            }else{
+                List<String> liste_segments_titres = new ArrayList<>();
+                for (SegmentEffort segEff: result){
+                   liste_segments_titres.add(segEff.getName());
+                }
+                ListView listview = (ListView)findViewById(R.id.listSegments);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                        SegmentActivity.this,
+                        android.R.layout.simple_list_item_1,
+                        liste_segments_titres );
+
+                listview.setAdapter(arrayAdapter);
+            }
+
+
+        }
+    }
+
 }

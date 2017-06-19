@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="lib-1.1.3">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.android/build-cache/42c6330c318b63ba5f52a2566c2ac9c39e01353e/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/42c6330c318b63ba5f52a2566c2ac9c39e01353e/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.sweetzpot.stravazpot/lib/1.1.3/164799fcbb13cbbabb951a09a33d5d127b5201d7/lib-1.1.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
