@@ -57,10 +57,10 @@ public class SegmentActivity extends AppCompatActivity {
 
             try {
                 activities = activityAPI.listMyActivities()
-                        .before(Time.seconds((int)System.currentTimeMillis()/1000))
-                        .after(Time.seconds(0))
-                        .inPage(0)
-                        .perPage(200)
+                        .before(null)
+                        .after(null)
+                        .inPage(1)
+                        .perPage(100)
                         .execute();
 
             }catch(StravaUnauthorizedException e){
@@ -80,30 +80,28 @@ public class SegmentActivity extends AppCompatActivity {
         }
 
         protected void onProgressUpdate(Integer... progress) {
-            if (progressDialog == null) {
+           /* if (progressDialog == null) {
                 progressDialog = new ProgressDialog(SegmentActivity.this);
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 progressDialog.setMessage("Loading...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
             }
-            progressDialog.setProgress(progress[0]);
+            progressDialog.setProgress(progress[0]);*/
             //Toast.makeText(SegmentActivity.this, "Activité "+progress[0], Toast.LENGTH_SHORT).show();
         }
 
         protected void onPostExecute(List<Activity> result) {
-            if (progressDialog != null) {
-                progressDialog.dismiss();
-            }
             if(result==null){
                 Toast.makeText(SegmentActivity.this, "Liste NON CHARGÉE", Toast.LENGTH_SHORT).show();
             }else{
+                Toast.makeText(SegmentActivity.this, "Liste chargée", Toast.LENGTH_SHORT).show();
                 List<String> liste_titres = null;
                 for (Activity act : result){
                     liste_titres.add(act.getName());
                 }
 
-                Toast.makeText(SegmentActivity.this, "Liste chargée", Toast.LENGTH_SHORT).show();
+
                 ListView listview = (ListView)findViewById(R.id.listSegments);
                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                  SegmentActivity.this,
