@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.github.maximemhd.maaxsegments">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -17,10 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SegmentActivity"></activity>
+        <activity android:name=".SegmentActivity" />
         <activity
             android:name="com.sweetzpot.stravazpot.authenticaton.ui.StravaLoginActivity"
             android:label="login strava" />
+        <activity android:name=".WebActivity"></activity>
     </application>
 
 </manifest>

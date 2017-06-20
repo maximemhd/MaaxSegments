@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
     private static final int RQ_LOGIN = 1001;
+    int nb_activity =0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,32 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 login();
+            }
+        });
+
+        Button getButton = (Button) findViewById(R.id.getListButton);
+        NumberPicker np = (NumberPicker) findViewById(R.id.numberPicker);
+        //Set the minimum value of NumberPicker
+        np.setMinValue(0);
+        //Specify the maximum value/number of NumberPicker
+        np.setMaxValue(200);
+
+        //Gets whether the selector wheel wraps when reaching the min/max value.
+        np.setWrapSelectorWheel(true);
+
+        //Set a value change listener for NumberPicker
+        np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal){
+                nb_activity = newVal;
+            }
+        });
+        getButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SegmentActivity.class);
+                intent.putExtra("nbr",nb_activity);
+                startActivity(intent);
             }
         });
 
@@ -164,8 +193,14 @@ public class MainActivity extends AppCompatActivity {
                 StravaLoginButton loginButton = (StravaLoginButton) findViewById(R.id.login_button);
                 loginButton.setVisibility(View.GONE);
                 ((TextView)findViewById(R.id.textView_connection)).setText("Connected");
-                Intent intent = new Intent(MainActivity.this, SegmentActivity.class);
-                startActivity(intent);
+                Button getButton = (Button) findViewById(R.id.getListButton);
+                getButton.setVisibility(View.VISIBLE);
+
+                NumberPicker numberPicker = (NumberPicker) findViewById(R.id.numberPicker);
+                numberPicker.setVisibility(View.VISIBLE);
+
+                TextView info = (TextView) findViewById(R.id.textInfo);
+                info.setVisibility(View.VISIBLE);
                 //U+1F603 (emoji)
             }
 
